@@ -54,6 +54,13 @@ export class FirebaseAuthService {
     return authDataModel;
   }
 
+
+  updateUserName(name){
+    return firebase.auth().currentUser.updateProfile({
+      displayName: name
+    });
+  }
+
   setProviderAdditionalInfo(additionalInfo: any) {
     this.userProviderAdditionalInfo = {...additionalInfo};
   }
