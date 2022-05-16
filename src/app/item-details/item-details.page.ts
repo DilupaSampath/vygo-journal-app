@@ -54,6 +54,7 @@ export class ItemDetailsPage implements OnInit, OnDestroy {
   chipListSet: Set<string> = new Set();
   isFavorite = false;
   ioStringate: string;
+  isFileUploading: boolean = false;
   constructor(
     private globalEventHandller: GlobalEventHandller,
     private firebaseCrudService: FirebaseJournalEntryCrudService,
@@ -100,6 +101,7 @@ export class ItemDetailsPage implements OnInit, OnDestroy {
       }, (err) => { })
   }
 
+  
   ngOnDestroy(): void {
     this.globalEventHandller.triggerUiEvent(true, GlobalUiEvent.MAIN_MENUE_VISIBILITY);
     this.fileUploadHandler.clearCurrentUploadImageMap();
@@ -110,13 +112,18 @@ export class ItemDetailsPage implements OnInit, OnDestroy {
     this.globalEventHandller.$globalUiEventHandller.subscribe(data => {
       if (data && data.event == GlobalUiEvent.FILE_UPLOAD) {
         console.log(data);
-        this.fileUploadHandler.uploadFile(data.data[0], this.quillInstanse);
+        this.isFileUploading = true;
+        this.fileUploadHandler.uploadFile(data.data[0], this.quillInstanse, this.fileUploadLoaderOff.bind(this));
       }
     });
     this.editorForm = new FormGroup({
       'editor': new FormControl(null)
     });
     this.activeVariation = 'size';
+  }
+
+  fileUploadLoaderOff(){
+    this.isFileUploading = false;
   }
 
   /**

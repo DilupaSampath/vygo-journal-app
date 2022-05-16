@@ -37,10 +37,12 @@
   <div class="variation">
     <ion-segment (ionChange)="segmentChanged($event)" value="size">
       <ion-segment-button value="size">
-        <ion-label>Editor</ion-label>
+        <ion-label *ngIf="!isFileUploading">Editor</ion-label>
+        <ion-spinner *ngIf="isFileUploading" name="lines"></ion-spinner>
       </ion-segment-button>
       <ion-segment-button value="color">
-        <ion-label>Preview</ion-label>
+        <ion-spinner *ngIf="isFileUploading" name="lines"></ion-spinner>
+        <ion-label *ngIf="!isFileUploading">Preview</ion-label>
       </ion-segment-button>
     </ion-segment>
   </div>
@@ -50,8 +52,8 @@
   </div>
 
   <div class="variation-selector">
-    <ng-container *ngIf="isEdit">
-      <ion-card  [ngClass]="favorite ? 'favorite-border' : ''" >
+
+      <ion-card [hidden]="!isEdit"  [ngClass]="favorite ? 'favorite-border' : ''" >
         <ion-card-header>
           <ion-card-title></ion-card-title>
         </ion-card-header>
@@ -68,13 +70,12 @@
           </form>
         </ion-card-content>
       </ion-card>
-    </ng-container>
 
 
-      <ng-container *ngIf="!isEdit">
-        <preview-data [contentData]="contentData"></preview-data>
-      </ng-container>
-  
+
+
+        <preview-data [hidden]="isEdit" [contentData]="contentData"></preview-data>
+     
   </div>
 </ion-content>
 <ion-footer>

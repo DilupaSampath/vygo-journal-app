@@ -41,7 +41,7 @@ clearCurrentUploadImageMap(){
  * @param image image reference
  * @param quillInstanse quill reference, after uploading this image we have to update the eitor with uploded image
  */
-uploadFile(image, quillInstanse){
+uploadFile(image, quillInstanse, callback){
 
     if (image) {
       const storageRef = this.firebaseFcadeService.getFirestoreReference.ref(environment.firebase.imageUploadBucket);
@@ -60,11 +60,13 @@ uploadFile(image, quillInstanse){
           }
           if((dataF && dataF.metadata && dataF.metadata.md5Hash)){
             this.insertToEditor(dataS,quillInstanse);
+            callback();
             this.toastComponentHandler.settingToast({ message: 'Image uploaded successfully', color: IonicGeneralColors.SUCCESS });
           }
       });
     });
     } else {
+      callback();
       alert("Please upload an image first.");
     }
   }
