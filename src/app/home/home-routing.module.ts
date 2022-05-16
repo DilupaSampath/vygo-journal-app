@@ -4,7 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { HomePage } from './home.page';
 import { HomePageResolver } from './home.page.resolver';
-const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['sign-in']);
+const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['welcome']);
 const routes: Routes = [
   {
     path: '',

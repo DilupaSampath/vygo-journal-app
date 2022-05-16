@@ -12,6 +12,7 @@ import { ProfilePage } from './profile.page';
 import { Routes } from '@angular/router';
 import { ProfilePageResolver } from './profile.resolver';
 import { AngularFireAuthGuard, redirectUnauthorizedTo } from '@angular/fire/auth-guard';
+import { StickyHeaderModule } from '../common/widgets/sticky-header/sticky-header.module';
 
 const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['sign-in']);
 
@@ -32,7 +33,8 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     IonicModule,
-    ProfilePageRoutingModule
+    ProfilePageRoutingModule,
+    StickyHeaderModule
   ],
   declarations: [ProfilePage],
   providers: [ProfilePageResolver]

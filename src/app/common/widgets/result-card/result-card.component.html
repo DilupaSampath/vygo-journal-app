@@ -1,0 +1,73 @@
+<ion-card [id]="resultItem._id" class="result-card-border">
+
+  <ion-item (click)="showText(resultItem._id)">
+    <ion-grid>
+      <ion-row>
+        <ion-col  size-md = "6" size-xs = "12">
+          <h2>{{resultItem.date | customDatePipe: 'MMMM d, y' }}
+            <ion-badge class="badge-gray" push="1">{{resultItem.date | customDatePipe: 'hh:mm a' }}</ion-badge>
+          </h2>
+        </ion-col>
+
+        <ion-col size-md = "4" size-xs = "12">
+          <ng-container *ngFor="let tagItem of resultItem.tags">
+            <span class="badge-padding-2">
+              <ion-badge  push="2"  class="badge-primary">{{tagItem}}</ion-badge>
+            </span>
+
+          </ng-container>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <ion-icon name="heart" slot="end" [ngClass]="resultItem?.isfavorite ? 'custom-danger' : ''" ></ion-icon>
+  </ion-item>
+  <ion-row>
+    <ion-col class="ion-align-items-center" size-md="12" size-xs="12">
+      <div class="category-slider ion-padding-start">
+        <ion-slides [options]="{ slidesPerView: 'auto', zoom: false, grabCursor: true }">
+          <ion-slide *ngFor="let imageItem of resultItem.images">
+            <ion-col>
+              <img [src]="imageItem.url" />
+            </ion-col>
+          </ion-slide>
+        </ion-slides>
+      </div>
+    </ion-col>
+    <ion-col>
+    </ion-col>
+    <ion-col size-md="12" size-xs="12">
+      <ion-card-content>
+        <p [ngClass]="{'limitTextHeight': isReadMore}" [innerHtml]="resultItem.description"></p>
+        <span class="c-details-more">
+          <span class="gradient-bar"></span>
+          <button class="c-details__txt" (click)="showText(resultItem._id)">
+            {{ isReadMore ? 'Read More': 'Read Less' }}
+          </button>
+        </span>
+      </ion-card-content>
+    </ion-col>
+
+  </ion-row>
+  <ion-grid>
+    <ion-row class="top-border-1" style="background: #efefef52;">
+      <ion-col class="ion-justify-content-items">
+        <ion-button fill="clear" (click)="editItem()">
+          <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+        </ion-button>
+      </ion-col>
+
+      <ion-col class="ion-justify-content-items">
+        <ion-button class="button-error" fill="clear" (click)="deleteConfirm()">
+          <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+        </ion-button>
+      </ion-col>
+      <ion-col class="ion-justify-content-items">
+        <ion-button fill="clear" (click)="presentModal()">
+          <ion-icon slot="icon-only" name="eye"></ion-icon>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+
+</ion-card>

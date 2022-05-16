@@ -6,7 +6,7 @@ import { NavigationExtras, Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { FirebaseAuthService } from '../common/services/firebase-auth.service';
-import { UtilService } from '../common/util/util.service';
+import { UtilService } from '../util.service';
 
 @Component({
   selector: 'app-login',
@@ -16,7 +16,7 @@ import { UtilService } from '../common/util/util.service';
 export class LoginPage implements OnInit {
   signInForm: FormGroup;
   submitError: string;
-  authRedirectResult: Subscription
+  authRedirectResult: Subscription;
   validation_messages = {
     'email': [
       { type: 'required', message: 'Email is required.' },
@@ -91,7 +91,19 @@ export class LoginPage implements OnInit {
   }
 
   facebookSignIn() {
-
+    this.authService.signInWithFacebook()
+    .then((result: any) => {
+      if (result.additionalUserInfo) {
+        this.authService.setProviderAdditionalInfo(result.additionalUserInfo.profile);
+      }
+      // This gives you a Facebook Access Token. You can use it to access the Facebook API.
+      // const token = result.credential.accessToken;
+      // The signed-in user info is in result.user;
+      this.redirectLoggedUserToProfilePage();
+    }).catch((error) => {
+      // Handle Errors here.
+      console.log(error);
+    });
   }
 
   googleSignIn() {
@@ -118,6 +130,19 @@ export class LoginPage implements OnInit {
   }
 
   twitterSignIn() {
+    this.authService.signInWithTwitter()
+    .then((result: any) => {
+      if (result.additionalUserInfo) {
+        this.authService.setProviderAdditionalInfo(result.additionalUserInfo.profile);
+      }
+      // This gives you a Twitter Access Token. You can use it to access the Twitter API.
+      // const token = result.credential.accessToken;
+      // The signed-in user info is in result.user;
+      this.redirectLoggedUserToProfilePage();
+    }).catch((error) => {
+      // Handle Errors here.
+      console.log(error);
+    });
   }
 
 

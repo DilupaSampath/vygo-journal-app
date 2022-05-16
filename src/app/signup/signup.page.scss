@@ -1,9 +1,6 @@
-// This will remove iOS Header Line
 ion-toolbar {
     --border-width: 0 !important;
 }
-
-// Removing Android Header Line
 .header-md::after {
     background: none !important;
 }

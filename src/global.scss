@@ -1,16 +1,6 @@
-/*
- * App Global CSS
- * ----------------------------------------------------------------------------
- * Put style rules here that you want to apply globally. These styles are for
- * the entire app and not just one component. Additionally, this file can be
- * used as an entry point to import other CSS/Sass files to be included in the
- * output CSS.
- * For more information on global stylesheets, visit the documentation:
- * https://ionicframework.com/docs/layout/global-stylesheets
- */
-
-/* Core CSS required for Ionic components to work properly */
 @import "~@ionic/angular/css/core.css";
+@import 'animate.css';
+@import url('./theme/variables.scss');
 
 /* Basic CSS for apps built with Ionic */
 @import "~@ionic/angular/css/normalize.css";
@@ -146,3 +136,74 @@ ion-toolbar {
   .monthview-container{
     height: auto !important;
 }
+
+.monthview-selected{
+    font-weight: bolder !important;
+    background: var(--ion-color-light-blue-background) !important;
+    color: var(--ion-color-dark-blue-text) !important;
+}
+.badge-warning{
+    background: var(--ion-color-light-red-background);
+    color: var(--ion-color-dark-red-text);
+}
+
+.badge-success{
+    background: var(--ion-color-light-green-background);
+    color: var(--ion-color-dark-green-text);
+}
+
+.badge-gray{
+    background: var(--ion-color-light-black-background);
+    color: var(--ion-color-light-gray-text-color);
+}
+
+.badge-primary{
+    background: var(--ion-color-light-blue-background);
+    color: var(--ion-color-dark-blue-text);
+}
+
+.button-error{
+    color: var(--ion-color-dark-red-text);
+}
+.custom-danger{
+    background: var(--ion-color-danger-contrast, #fff) !important;
+    color: var(--ion-color-danger) !important;
+}
+ion-chip{
+    background: var(--ion-color-light-blue-background);
+    color: var(--ion-color-dark-blue-text);
+}
+.default-create-color{
+    color: var(--ion-color-default-create) !important;
+}
+.default-close-color{
+    color: var(--ion-color-light-black-text);
+}
+
+.badge-padding-2{
+    padding-right: 2px;
+}
+
+.black-text-bold{
+    color: var(--ion-color-dark-black-text-color);
+}
+
+.top-border-1{
+    border-top: 1px solid rgba(0,0,0,.15);
+}
+.light-gray-background{
+    background: #f7f8f985;
+}
+@media (min-width: 680px) {
+.my-custom-modal-css{
+    .modal-wrapper{
+        height: 90%;
+        width: 90%;
+        border-radius: 15px;
+        top: 5%; 
+       left: 5%; 
+       right: 5%; 
+       bottom: 5%;
+      } 
+    }
+ }

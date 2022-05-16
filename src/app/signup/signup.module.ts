@@ -1,12 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
 import { SignupPageRoutingModule } from './signup-routing.module';
 
 import { SignupPage } from './signup.page';
+import { Auth2LoginPageModule } from '../common/widgets/auth2-login/auth2-login.module';
 
 @NgModule({
   imports: [
@@ -14,7 +15,7 @@ import { SignupPage } from './signup.page';
     FormsModule,
     IonicModule,
     SignupPageRoutingModule,
-    ReactiveFormsModule
+    Auth2LoginPageModule
   ],
   declarations: [SignupPage]
 })

@@ -1,0 +1,18 @@
+<div class="title ion-padding">
+    <ion-title>{{viewTitle}}</ion-title>
+  </div>
+<ng-container>
+
+<calendar 
+[eventSource]="eventSource"
+[calendarMode]="calendar.mode"
+[currentDate]="calendar.currentDate"
+[step]="calendar.step"
+[showEventDetail]="false"
+(onEventSelected)="onEventSelected($event)"
+(onTitleChanged)="onViewTitleChanged($event)"
+(onTimeSelected)="onTimeSelected($event)"
+>
+</calendar>
+
+</ng-container>

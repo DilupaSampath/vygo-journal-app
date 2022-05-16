@@ -1,0 +1,5 @@
+export enum FIREBASE_COLLECTION{
+    USER = 'USER',
+    JOURNAL_ENTRY = 'JOURNAL_ENTRY',
+    IMAGES = 'IMAGES'
+}

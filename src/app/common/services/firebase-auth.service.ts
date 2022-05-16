@@ -1,17 +1,13 @@
 import { Injectable } from '@angular/core';
-// import { AngularFireAuth } from '@angular/fire/compat/auth';
-
 import { Observable, Subject, from } from 'rxjs';
 import { Platform } from '@ionic/angular';
 
 import { filter, map, take } from 'rxjs/operators';
 import { ProfileModel } from 'src/app/profile/profile.model';
-// import { AngularFireAuth } from '@angular/fire/compat/auth';
-// import firebase from 'firebase/compat';
-// import { User } from 'firebase/auth';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { auth, User } from 'firebase';
-
+import { AuthDataModel } from '../models/auth-data.model';
+import firebase from "firebase";
 @Injectable({
   providedIn: 'root'
 })
@@ -51,15 +47,12 @@ export class FirebaseAuthService {
   }
 
   getAuthata(){
-    // const authDataModel = new AuthDataModel();
-    // authDataModel.name = this.currentUser.providerData[0].displayName;
-    // authDataModel.id = this.currentUser.providerData[0].uid;
-    // return authDataModel;
+    this.currentUser = firebase.auth().currentUser;
+    const authDataModel = new AuthDataModel();
+    authDataModel.name = this.currentUser.providerData[0].displayName;
+    authDataModel.id = this.currentUser.providerData[0].uid;
+    return authDataModel;
   }
-
-  // getRedirectResult(): Observable<any> {
-  //   return this._redirectResult.asObservable();
-  // }
 
   setProviderAdditionalInfo(additionalInfo: any) {
     this.userProviderAdditionalInfo = {...additionalInfo};
@@ -84,7 +77,7 @@ export class FirebaseAuthService {
       providerData = {...providerData, ...this.userProviderAdditionalInfo};
     }
 
-    // Default imgs are too small and our app needs a bigger image
+    // Default imgs are too small and our app needs a bigger image. Only google activated yet
     switch (providerData.providerId) {
       case 'facebook.com':
         userModel.image = providerData.photoURL + '?height=400';

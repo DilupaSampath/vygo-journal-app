@@ -1,7 +1,3 @@
-// Ionic Variables and Theming. For more info, please see:
-// http://ionicframework.com/docs/theming/
-
-/** Ionic CSS Variables **/
 :root {
   /** primary **/
   --ion-color-primary: #667EEA;
@@ -74,6 +70,36 @@
   --ion-color-light-contrast-rgb: 0, 0, 0;
   --ion-color-light-shade: #d7d8da;
   --ion-color-light-tint: #f5f6f9;
+
+  --ion-color-light-green-background: #cff2cd;
+  --ion-color-dark-green-text: #080;
+
+  --ion-color-light-blue-background: #e0e6f8;
+  --ion-color-dark-blue-text: #1540bb;
+
+  --ion-color-light-red-background: #fae2e2;
+  --ion-color-dark-red-text: #db0811;
+  --ion-color-default-create: #3880ff;
+  --ion-color-light-black-text: #857171;
+
+  --ion-color-light-black-background: #f1e8fb;
+  --ion-color-dark-black-text-color: #000000;
+  --ion-color-light-gray-text-color: #61656c;
+
+
+  ion-content{
+
+    --ion-background-color:#fafafa;
+}
+
+ion-menu > ion-content{
+
+  --ion-background-color:#ffffff !important;
+}
+
+ion-card{
+  --ion-background-color:#ffffff;
+}
 }
 
 @media (prefers-color-scheme: dark) {
@@ -154,7 +180,7 @@
 
   .ios body {
     --ion-background-color: #000000;
-    --ion-background-color-rgb: 0,0,0;
+    --ion-background-color-rgb: red;
 
     --ion-text-color: #ffffff;
     --ion-text-color-rgb: 255,255,255;

@@ -1,42 +1,42 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-menu-button>
-        <img src="../../assets/menu_bar.svg" />
-      </ion-menu-button>
-    </ion-buttons>
-    <ion-grid>
-      <ion-row>
-        <ion-col>
-          <ion-button fill="clear">
-            <ion-icon name="add-circle-outline" size="large"></ion-icon>
-            
-          </ion-button>
-        </ion-col>
-        <ion-col>
-        </ion-col>
-        <ion-col>
-        
-        </ion-col>
-      </ion-row>
-      </ion-grid>
-    
-    <ion-buttons slot="end">
-      <ion-button class="notification">
-        <ion-icon name="notifications-outline" color="dark"></ion-icon>
-        <span>&nbsp;</span>
-      </ion-button>
-      <ion-button class="filter">
-        <ion-icon name="funnel-outline" color="dark"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header>
 
-<ion-content>
-  <div class="search ion-padding">
-    <ion-item lines="none">
-      <ion-input placeholder="Search here" ></ion-input>
+<sticky-header></sticky-header>
+
+<ion-content (ionBlur)="setInputFocusOut($event)"   (ionFocus)="setInputFocus($event)">
+  <div class="search ion-padding" >
+    <ion-item lines="none" *ngIf="isResultView" >
+      <ion-input [(ngModel)]="searchValue" [ngStyle]="{'background-color': reset ? '#fff' : ''}"  class="input-name"  placeholder="Search here"></ion-input>
       <ion-icon name="search-outline" slot="start"></ion-icon>
     </ion-item>
   </div>
+
+    <ion-title class="ion-no-padding-top">
+    <ion-button class="default-create-color" shape="round"  fill="outline" size="small" (click)="presentPopover($event)">
+      <ion-icon name="ellipsis-vertical-outline"></ion-icon>
+    </ion-button>
+  </ion-title>
+  <ng-container *ngIf="isResultView">
+    <ng-container *ngFor="let item of journalEntryArray | customFilterPipe : searchValue : fieldSet: false; let i = index" >
+      <result-card [resultItem]="item" (successEvent)="successEvent($event)"></result-card>
+    </ng-container>
+  </ng-container>
+
+  <ng-container *ngIf="!isResultView">
+    <full-page-calender (selectedDate)="dateSelection($event)"></full-page-calender>
+    <ion-title>&nbsp;</ion-title>
+
+    <ng-container *ngFor="let item of journalEntryArray | customFilterPipe : selecteDate : fieldSet: true; let i = index" >
+      <result-card [resultItem]="item" (successEvent)="successEvent($event)"></result-card>
+    </ng-container>
+
+
+  </ng-container>
+</ion-content>
+
+  <ion-content *ngIf="isSearchView">
+    <ion-item-group *ngFor="let group of [] | groupBy: 'date'">
+      <ion-item-divider color="light">
+          {{ group.itemDueDate }}
+      </ion-item-divider>
+      <ion-item *ngFor="let event of group.list">{{ event.itemName }}</ion-item>
+  </ion-item-group>
+</ion-content>

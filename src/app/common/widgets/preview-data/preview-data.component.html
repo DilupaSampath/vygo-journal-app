@@ -1,0 +1,26 @@
+<ion-card>
+  <ion-card-header>
+    <ion-card-title> 
+
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+
+            <ion-button class="default-close-color" fill="clear" (click)="cancel()">
+              <ion-icon fill="clear" size="large" name="close-circle-outline" ></ion-icon>
+          
+            </ion-button>
+          </ion-col>
+        </ion-row>
+        </ion-grid>
+    
+    </ion-card-title>
+  </ion-card-header>
+
+  <ion-card-content >
+    <ion-img *ngIf="!contentData" class="test-image" src="../../assets/noprv.png"></ion-img>
+  </ion-card-content>
+  <ion-card-content *ngIf="contentData"  [innerHTML]="contentData">
+
+  </ion-card-content>
+</ion-card>

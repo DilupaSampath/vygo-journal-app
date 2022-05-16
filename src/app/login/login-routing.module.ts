@@ -4,9 +4,6 @@ import { Routes, RouterModule } from '@angular/router';
 import { LoginPage } from './login.page';
 import {redirectUnauthorizedTo } from '@angular/fire/auth-guard';
 
-
-const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['sign-in']);
-
 const routes: Routes = [
   {
     path: '',

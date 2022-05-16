@@ -13,6 +13,10 @@ import { environment } from 'src/environments/environment';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { FirebaseAuthService } from './common/services/firebase-auth.service';
 import { AngularFireModule } from '@angular/fire';
+import { GlobalEventHandller } from './common/services/global-event.handller';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { ItemDetailsPageModule } from './item-details/item-details.module';
+import { AuthPayloaInterceptor } from './common/interceptors/auth-payload.Interceptor';
 // import { AngularFireModule } from '@angular/fire/compat';
 // import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 
@@ -25,13 +29,21 @@ import { AngularFireModule } from '@angular/fire';
     IonicModule.forRoot(),
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebase),
-    AngularFireAuthModule
+    AngularFireAuthModule,
+    HttpClientModule,
+    ItemDetailsPageModule
   ],
   providers: [
     StatusBar,
     SplashScreen,
-    FirebaseAuthService,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    GlobalEventHandller,
+    ,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthPayloaInterceptor,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })

@@ -59,3 +59,7 @@ ion-badge{
 ion-col:focus {
     outline: none !important;
 }
+
+.input-name:focus {
+    box-shadow:0 0 0 10px red;
+}

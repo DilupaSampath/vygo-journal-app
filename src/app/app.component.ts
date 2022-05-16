@@ -1,11 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Platform } from '@ionic/angular';
+import { Platform, ToastController } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
-import { UtilService } from './common/util/util.service';
+import { UtilService } from './util.service';
 import { menuController } from '@ionic/core';
 import { Router } from '@angular/router';
+import { GlobalEventHandller } from './common/services/global-event.handller';
+import { GlobalUiEvent } from './common/enums/global-event.enums';
+import { FirebaseAuthService } from './common/services/firebase-auth.service';
+import { AbstractToastComponentHandler } from './common/component-handlers/abstract-toast-component.handler';
+import { ToastComponentHandler } from './common/widgets/controller-actions/toast-component.handler';
 
 @Component({
   selector: 'app-root',
@@ -15,13 +20,18 @@ import { Router } from '@angular/router';
 export class AppComponent implements OnInit {
   public isMenuEnabled:boolean = true;
   public selectedIndex = 0;
+  toastComponentHandler: AbstractToastComponentHandler;
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
     private util: UtilService,
-    private router: Router
+    private router: Router,
+    private globalEventHandller: GlobalEventHandller,
+    private firebaseAuthService : FirebaseAuthService,
+    private toastController: ToastController
   ) {
+    this.toastComponentHandler = new ToastComponentHandler(toastController, globalEventHandller);
     this.initializeApp();
   }
 
@@ -38,13 +48,24 @@ export class AppComponent implements OnInit {
     this.util.getMenuState().subscribe(menuState => {
       this.isMenuEnabled = menuState;
     });
+
+    this.globalEventHandller.$globalUiEventHandller.subscribe(data=>{
+
+      if(data && data.event === GlobalUiEvent.MAIN_MENUE_VISIBILITY){
+        this.isMenuEnabled = data.data;
+      }
+    });
   }
 
   navigate(path, selectedId) {
     this.selectedIndex = selectedId;
-    this.router.navigate([path]);
-  }
+    if(this.firebaseAuthService.currentUser){
+      this.router.navigate([path]);
+    }else{
+      this.toastComponentHandler.settingToast({ message: 'Please login to proceed...!', color: 'light', pos: 'top', duration: 2000 });
+    }
 
+  }
   close() {
     menuController.toggle();
   }

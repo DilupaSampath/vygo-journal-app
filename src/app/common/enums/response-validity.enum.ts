@@ -1,0 +1,5 @@
+export enum RESPONSE_VALIDITY {
+    ERROR = 'ERROR',
+    WARNING = 'WARNING',
+    SUCCESS = 'SUCCESS'
+  }
