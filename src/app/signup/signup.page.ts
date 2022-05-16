@@ -65,8 +65,6 @@ export class SignupPage implements OnInit {
   signUpWithEmail() {
     this.authService.signUpWithEmail(this.formSignUp.value['email'], this.formSignUp.value['password'])
     .then(user => {
-      // navigate to user profile
-      // this.redirectLoggedUserToProfilePage();
       this.authService.updateUserName(this.formSignUp.value['name']).then(data=>{
         this.util.setMenuState(true);
         this.navCtrl.navigateRoot(LocalRoutingEnum.HOME, { animationDirection: 'forward' });
