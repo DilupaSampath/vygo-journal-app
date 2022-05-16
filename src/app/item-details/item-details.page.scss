@@ -178,3 +178,9 @@ ion-footer {
     /* box-shadow: 0 20px 40px 0 rgb(0 0 0 / 12%); */
     border: 1.1px solid #db05ad;
   }
+
+  @media only screen and (max-width: 600px) {
+    ion-fab {
+      margin-top: 8%;
+    }
+  }
