@@ -1,13 +1,13 @@
 export const environment = {
   production: true,
   firebase: {
-    apiKey: "AIzaSyDjzzqzm5Eo6ExeM5eZucVNpWMpJ8CPLAc",
-    authDomain: "teambitcode-bcc2f.firebaseapp.com",
-    projectId: "teambitcode-bcc2f",
-    storageBucket: "teambitcode-bcc2f.appspot.com",
-    messagingSenderId: "26315202912",
-    appId: "1:26315202912:web:36b6ef88122b96c0227e05",
-    measurementId: "G-NGEELJ0DZE",
-    databaseURL: "gs://teambitcode-bcc2f.appspot.com"    
+    apiKey: "AIzaSyAjMniANeGJygShUzvBUlDYxg8E-xoqHNM",
+    authDomain: "vygo-journal-app.firebaseapp.com",
+    projectId: "vygo-journal-app",
+    storageBucket: "vygo-journal-app.appspot.com",
+    messagingSenderId: "248740797946",
+    appId: "1:248740797946:web:c03b8bf687fefaeaac5843",
+    measurementId: "G-L5T7TF0MGZ",
+    databaseURL: "https://vygo-journal-app-default-rtdb.firebaseio.com/" 
   }
 };
