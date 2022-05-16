@@ -19,7 +19,7 @@
         </ion-col>
       </ion-row>
     </ion-grid>
-    <ion-icon name="heart" slot="end" [ngClass]="resultItem?.isfavorite ? 'custom-danger' : ''" ></ion-icon>
+    <ion-icon (click)="$event.stopPropagation();"  name="heart" slot="end" [ngClass]="resultItem?.isfavorite ? 'custom-danger' : ''" ></ion-icon>
   </ion-item>
   <ion-row>
     <ion-col class="ion-align-items-center" size-md="12" size-xs="12">

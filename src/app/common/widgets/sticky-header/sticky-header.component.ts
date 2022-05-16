@@ -3,6 +3,7 @@ import { Router } from "@angular/router";
 import { AlertController } from "@ionic/angular";
 import { AbstractAlertControllerComponentHandler } from "../../component-handlers/abstract-alert-controller-component.handler";
 import { AbstractModalComponentHandler } from "../../component-handlers/abstract-modal-component.handler";
+import { LocalRoutingEnum } from "../../enums/local-routes.enum";
 import { SessionStorageEnum } from "../../enums/session-storage.enum";
 import { FirebaseAuthService } from "../../services/firebase-auth.service";
 import { FirebaseFcadeService } from "../../services/firebase-facade.service";
@@ -17,6 +18,7 @@ import { AlertControllerComponentHandeler } from "../controller-actions/alert-co
   export class StickyHeaderComponent implements OnInit {
     alertControllerComponentHandeler: AbstractAlertControllerComponentHandler;
     user: any = null;
+    @Input() isCreateEnable: boolean = true;
     constructor(
       private alertController: AlertController, 
       private globalEventHandller: GlobalEventHandller, 
@@ -32,7 +34,7 @@ import { AlertControllerComponentHandeler } from "../controller-actions/alert-co
 
     signOut() {
       this.firebaseFcadeService.getFirebaseAuthService.signOut().subscribe(() => {
-        this.router.navigate(['welcome']);
+        this.router.navigate([LocalRoutingEnum.WELCOME]);
       }, (error) => {
         console.log('signout error', error);
       });
@@ -45,6 +47,6 @@ import { AlertControllerComponentHandeler } from "../controller-actions/alert-co
   
     async addNewItem() {
       this.sessionStorageService.removeItemInSessionStorage(SessionStorageEnum.CURREN_JOURNAL_ENTRY_ID);
-      this.router.navigate(['/item-details']);
+      this.router.navigate([LocalRoutingEnum.ITEM_DETAILS]);
     }
   }

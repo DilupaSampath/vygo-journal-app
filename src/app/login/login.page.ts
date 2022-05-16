@@ -5,6 +5,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NavigationExtras, Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
+import { LocalRoutingEnum } from '../common/enums/local-routes.enum';
 import { FirebaseAuthService } from '../common/services/firebase-auth.service';
 import { UtilService } from '../util.service';
 
@@ -56,7 +57,7 @@ export class LoginPage implements OnInit {
             special: JSON.stringify(result.user)
           }
         };
-        this.router.navigate(['profile'], navigationExtras);
+        this.router.navigate([LocalRoutingEnum.PROFILE], navigationExtras);
       } else if (result.error) {
         this.submitError = result.error;
       }
@@ -73,7 +74,7 @@ export class LoginPage implements OnInit {
     // As we are calling the Angular router navigation inside a subscribe method, the navigation will be triggered outside Angular zone.
     // That's why we need to wrap the router navigation call inside an ngZone wrapper
     this.ngZone.run(() => {
-      this.router.navigate(['profile']);
+      this.router.navigate([LocalRoutingEnum.PROFILE]);
     });
   }
 
@@ -83,7 +84,7 @@ export class LoginPage implements OnInit {
       // navigate to user profile
       // this.redirectLoggedUserToProfilePage();
           this.util.setMenuState(true);
-    this.navCtrl.navigateRoot('/home', { animationDirection: 'forward' });
+    this.navCtrl.navigateRoot(LocalRoutingEnum.HOME, { animationDirection: 'forward' });
     })
     .catch(error => {
       this.submitError = error.message;
@@ -122,7 +123,7 @@ export class LoginPage implements OnInit {
       // };
       // this.router.navigate(['profile'], navigationExtras);
       this.util.setMenuState(true);
-      this.navCtrl.navigateRoot('/home', { animationDirection: 'forward' });
+      this.navCtrl.navigateRoot(LocalRoutingEnum.HOME, { animationDirection: 'forward' });
     }).catch((error) => {
       // Handle Errors here.
       console.log(error);
@@ -149,7 +150,7 @@ export class LoginPage implements OnInit {
   login() {
     // Enabling Side Menu
     this.util.setMenuState(true);
-    this.navCtrl.navigateRoot('/home', { animationDirection: 'forward' });
+    this.navCtrl.navigateRoot(LocalRoutingEnum.HOME, { animationDirection: 'forward' });
   }
 
 }

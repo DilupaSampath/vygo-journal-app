@@ -1,34 +1,35 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { LocalRoutingEnum } from './common/enums/local-routes.enum';
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'welcome',
+    redirectTo: LocalRoutingEnum.WELCOME,
     pathMatch: 'full'
   },
   {
-    path: 'welcome',
+    path: LocalRoutingEnum.WELCOME,
     loadChildren: () => import('./welcome/welcome.module').then( m => m.WelcomePageModule)
   },
   {
-    path: 'login',
+    path: LocalRoutingEnum.LOGIN,
     loadChildren: () => import('./login/login.module').then( m => m.LoginPageModule)
   },
   {
-    path: 'signup',
+    path: LocalRoutingEnum.SIGNUP,
     loadChildren: () => import('./signup/signup.module').then( m => m.SignupPageModule)
   },
   {
-    path: 'home',
+    path: LocalRoutingEnum.HOME,
     loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
   },
   {
-    path: 'item-details',
+    path: LocalRoutingEnum.ITEM_DETAILS,
     loadChildren: () => import('./item-details/item-details.module').then( m => m.ItemDetailsPageModule)
   },
   {
-    path: 'profile',
+    path: LocalRoutingEnum.PROFILE,
     loadChildren: () => import('./profile/profile.module').then( m => m.ProfilePageModule)
   }
 ];

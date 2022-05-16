@@ -5,6 +5,8 @@ import { NavController, ToastController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { UtilService } from 'src/app/util.service';
 import { AbstractToastComponentHandler } from '../../component-handlers/abstract-toast-component.handler';
+import { IonicGeneralColors } from '../../enums/ionic-general-colors.enum';
+import { LocalRoutingEnum } from '../../enums/local-routes.enum';
 
 import { CustomDatePipe } from '../../pipes/custom-date.pipe';
 import { FirebaseAuthService } from '../../services/firebase-auth.service';
@@ -42,7 +44,7 @@ export class Auth2LoginPage implements OnInit {
             special: JSON.stringify(result.user)
           }
         };
-        this.router.navigate(['home'], navigationExtras);
+        this.router.navigate([LocalRoutingEnum.HOME], navigationExtras);
       } else if (result.error) {
       }
     });
@@ -58,7 +60,7 @@ export class Auth2LoginPage implements OnInit {
     // As we are calling the Angular router navigation inside a subscribe method, the navigation will be triggered outside Angular zone.
     // That's why we need to wrap the router navigation call inside an ngZone wrapper
     this.ngZone.run(() => {
-      this.router.navigate(['profile']);
+      this.router.navigate([LocalRoutingEnum.PROFILE]);
     });
   }
 
@@ -79,7 +81,7 @@ export class Auth2LoginPage implements OnInit {
         console.log(error);
       });
     }else{
-      this.toastComponentHandler.settingToast({ message: 'Feature not implemented', color: 'light', pos: 'top', duration: 2000 });
+      this.toastComponentHandler.settingToast({ message: 'Feature not implemented', color: IonicGeneralColors.LIGHT, pos: 'top', duration: 2000 });
     }
     
   }
@@ -100,7 +102,7 @@ export class Auth2LoginPage implements OnInit {
       // };
       // this.router.navigate(['profile'], navigationExtras);
       this.util.setMenuState(true);
-      this.navCtrl.navigateRoot('/home', { animationDirection: 'forward' });
+      this.navCtrl.navigateRoot('/'+LocalRoutingEnum.HOME, { animationDirection: 'forward' });
     }).catch((error) => {
       // Handle Errors here.
       console.log(error);
@@ -124,7 +126,7 @@ export class Auth2LoginPage implements OnInit {
       });
     }else{
 
-      this.toastComponentHandler.settingToast({ message: 'Feature not implemented', color: 'light', pos: 'top', duration: 2000 });
+      this.toastComponentHandler.settingToast({ message: 'Feature not implemented', color: IonicGeneralColors.LIGHT, pos: 'top', duration: 2000 });
     }
   }
 

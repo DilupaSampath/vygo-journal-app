@@ -19,6 +19,11 @@ export class FirebaseJournalEntryCrudService {
     return this.firebaseFcadeService.saveItem(requestData);
   }
 
+  /**
+   * 
+   * @param condition - QueryObjectModel type array. we can define Query that we want to apply
+   * @returns 
+   */
   async get(condition: QueryObjectModel[]): Promise<any> {
     const requestData: ApiRequestDataModel<QueryObjectModel[]> = new ApiRequestDataModel();
     requestData.collection = FIREBASE_COLLECTION.JOURNAL_ENTRY;
@@ -46,11 +51,17 @@ export class FirebaseJournalEntryCrudService {
         journalEntryArray.push(journalEntry);
       });
     }
+    // sort by date
     journalEntryArray = journalEntryArray.slice().sort((a: any, b: any) => { return (new Date(b.date).getTime() - new Date(a.date).getTime()) })
     console.log(journalEntryArray);
     return journalEntryArray;
   }
 
+  /**
+   * 
+   * @param entry we performing PUT request. so entry will be replace with matching conition
+   * @returns 
+   */
   async update(entry: JournalEntry): Promise<any> {
     const requestData: ApiRequestDataModel<JournalEntry> = new ApiRequestDataModel();
     requestData.collection = FIREBASE_COLLECTION.JOURNAL_ENTRY;
@@ -59,6 +70,11 @@ export class FirebaseJournalEntryCrudService {
     return this.firebaseFcadeService.updateItem<JournalEntry>(requestData);
   }
 
+  /**
+   * 
+   * @param id firebase item id
+   * @returns 
+   */
   async delete(id: string) {
     const requestData: ApiRequestDataModel<JournalEntry> = new ApiRequestDataModel();
     requestData.collection = FIREBASE_COLLECTION.JOURNAL_ENTRY;
@@ -73,6 +89,11 @@ export class FirebaseJournalEntryCrudService {
     return result;
   }
 
+  /**
+   * 
+   * @param condition 
+   * @returns 
+   */
   async getById(condition: QueryObjectModel) {
     const requestData: ApiRequestDataModel<QueryObjectModel[]> = new ApiRequestDataModel();
     requestData.collection = FIREBASE_COLLECTION.JOURNAL_ENTRY;

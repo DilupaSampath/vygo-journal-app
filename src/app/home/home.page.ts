@@ -3,7 +3,7 @@ import { DataService } from '../data.service';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AlertController, LoadingController, ModalController, PopoverController } from '@ionic/angular';
+import { AlertController, LoadingController, ModalController, PopoverController, ToastController } from '@ionic/angular';
 import { ProfilePage } from '../profile/profile.page';
 import { PreviewModalHandler } from '../common/widgets/controller-actions/preview-modal.handler';
 import { AbstractModalComponentHandler } from '../common/component-handlers/abstract-modal-component.handler';
@@ -24,6 +24,9 @@ import { SessionStorageService } from '../common/services/session-storage.servic
 import { SessionStorageEnum } from '../common/enums/session-storage.enum';
 import { AlertControllerComponentHandeler } from '../common/widgets/controller-actions/alert-controller.handler';
 import { AbstractAlertControllerComponentHandler } from '../common/component-handlers/abstract-alert-controller-component.handler';
+import { IonicGeneralColors } from '../common/enums/ionic-general-colors.enum';
+import { AbstractToastComponentHandler } from '../common/component-handlers/abstract-toast-component.handler';
+import { ToastComponentHandler } from '../common/widgets/controller-actions/toast-component.handler';
 
 @Component({
   selector: 'app-home',
@@ -41,12 +44,13 @@ export class HomePage implements OnInit {
   previewModalHandler: AbstractModalComponentHandler;
   popoverModalHandler: AbstractPopoverComponentHandler;
   loadingComponentHandler: AbstractLoadingComponentHandler;
+  toastComponentHandler: AbstractToastComponentHandler;
   journalEntryArray: JournalEntry[] = [];
   reset: boolean = false;
   fieldSet: Set<string> = new Set(['date', 'description', 'tags']);
   searchValue: string = '';
   selecteDate = new Date().toDateString();
-
+  favoriteFilter = false;
   constructor(
     private data: DataService,
     private router: Router,
@@ -57,8 +61,10 @@ export class HomePage implements OnInit {
     private popoverController: PopoverController,
     private firebaseJournalEntryCrudService: FirebaseJournalEntryCrudService,
     private firebaseFcadeService: FirebaseFcadeService,
-    private loadingController: LoadingController
+    private loadingController: LoadingController,
+    private toastController: ToastController
   ) {
+    this.toastComponentHandler = new ToastComponentHandler(toastController, globalEventHandller);
     // initialize loding controller
     this.loadingComponentHandler = new LoaderComponentHandeler(loadingController, globalEventHandller);
 
@@ -85,6 +91,7 @@ export class HomePage implements OnInit {
         if (data.data === 'cal-view') {
           this.fieldSet = new Set(['date']);
           this.isResultView = false;
+          this.favoriteFilter = false;
           this.selecteDate = new Date().toDateString();
         } else {
           this.fieldSet = new Set(['date', 'description', 'tags']);
@@ -124,6 +131,13 @@ export class HomePage implements OnInit {
 
   closeLoader(){
     
+  }
+
+  addFavoriteFilter(){
+    this.favoriteFilter = !this.favoriteFilter;
+    if(this.favoriteFilter){
+      this.toastComponentHandler.settingToast({ message: 'Favorite filter added', color: IonicGeneralColors.TERTIARY });
+    }
   }
 
   presentModal() {

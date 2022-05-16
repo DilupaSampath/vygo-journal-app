@@ -10,12 +10,17 @@
   </div>
 
     <ion-title class="ion-no-padding-top">
-    <ion-button class="default-create-color" shape="round"  fill="outline" size="small" (click)="presentPopover($event)">
+    <ion-button title="Change result view" class="default-create-color" shape="round"  fill="outline" size="small" (click)="presentPopover($event)">
       <ion-icon name="ellipsis-vertical-outline"></ion-icon>
     </ion-button>
+    &nbsp;&nbsp;
+    <ion-button *ngIf="isResultView" push="2" title="Filter favorites" class="default-create-color" shape="round" [color]="favoriteFilter ? 'danger' : 'light'"  size="small" (click)="addFavoriteFilter()" >
+      <ion-icon name="heart"></ion-icon>
+    </ion-button>
   </ion-title>
+  <!-- fab placed to the top end -->
   <ng-container *ngIf="isResultView">
-    <ng-container *ngFor="let item of journalEntryArray | customFilterPipe : searchValue : fieldSet: false; let i = index" >
+    <ng-container *ngFor="let item of journalEntryArray | customFilterPipe : searchValue : fieldSet: false : favoriteFilter; let i = index" >
       <result-card [resultItem]="item" (successEvent)="successEvent($event)"></result-card>
     </ng-container>
   </ng-container>

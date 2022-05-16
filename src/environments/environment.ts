@@ -12,7 +12,8 @@ export const environment = {
     messagingSenderId: "248740797946",
     appId: "1:248740797946:web:c03b8bf687fefaeaac5843",
     measurementId: "G-L5T7TF0MGZ",
-    databaseURL: "https://vygo-journal-app-default-rtdb.firebaseio.com/"
+    databaseURL: "https://vygo-journal-app-default-rtdb.firebaseio.com/",
+    imageUploadBucket:'/journal_images'
   }
 
 

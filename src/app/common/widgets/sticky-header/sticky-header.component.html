@@ -9,7 +9,7 @@
     <ion-grid>
       <ion-row>
         <ion-col>
-          <ion-button class="default-create-color" fill="clear" (click)="addNewItem()">
+          <ion-button *ngIf="isCreateEnable" title="Create" class="default-create-color" fill="clear" (click)="addNewItem()">
             <ion-icon name="add-circle-outline" size="large"></ion-icon>
             
           </ion-button>

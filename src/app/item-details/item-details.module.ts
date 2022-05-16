@@ -12,6 +12,7 @@ import { ItemDetailsPageResolver } from './item-details.resolver';
 import { FirebaseAuthService } from '../common/services/firebase-auth.service';
 import { PreviewDataModule } from '../common/widgets/preview-data/preview-data.module';
 import { ChipListPageModule } from '../common/widgets/chip-list/chip-list.module';
+import { StickyHeaderModule } from '../common/widgets/sticky-header/sticky-header.module';
 
 @NgModule({
   imports: [
@@ -22,7 +23,9 @@ import { ChipListPageModule } from '../common/widgets/chip-list/chip-list.module
     QuillModule,
     ReactiveFormsModule,
     PreviewDataModule,
-    ChipListPageModule
+    ChipListPageModule,
+    StickyHeaderModule
+    
   ],
   declarations: [ItemDetailsPage],
   providers: [ItemDetailsPageResolver]

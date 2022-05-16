@@ -4,6 +4,9 @@ import { ModalController } from "@ionic/angular";
 import { ControllerActionInputData } from "../enums/controller-action-input-data.enum";
 import { GlobalEventHandller } from "../services/global-event.handller";
 
+/**
+ * Abstract class to generalize the ModalController behavior.
+ */
 export abstract class AbstractModalComponentHandler {
 
     constructor(protected modalController: ModalController, protected globalUiEventHandller: GlobalEventHandller) {
@@ -14,7 +17,17 @@ export abstract class AbstractModalComponentHandler {
     component: any;
     outputEvent: EventEmitter<any>;
     inputdata: Map<ControllerActionInputData | any, any>;
+
+    /**
+      * can override the dismiss miss behavior to handle complex tasks
+      * @param data 
+      */
     abstract dismiss();
+    
+    /**
+     * can override the settingAlert to apply customized settings
+     * 
+     */
     abstract presentModal();
 
     protected generateComponentProps() {

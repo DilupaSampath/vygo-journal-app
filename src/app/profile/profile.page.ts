@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { GlobalUiEvent } from '../common/enums/global-event.enums';
+import { LocalRoutingEnum } from '../common/enums/local-routes.enum';
 import { FirebaseAuthService } from '../common/services/firebase-auth.service';
 import { GlobalEventHandller } from '../common/services/global-event.handller';
 import { ProfileModel } from './profile.model';
@@ -36,7 +37,7 @@ export class ProfilePage implements OnInit {
   signOut() {
     this.authService.signOut().subscribe(() => {
       // Sign-out successful.
-      this.router.navigate(['sign-in']);
+      this.router.navigate([LocalRoutingEnum.WELCOME]);
     }, (error) => {
       console.log('signout error', error);
     });

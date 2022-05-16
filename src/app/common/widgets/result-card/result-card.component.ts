@@ -19,6 +19,8 @@ import { AlertControllerComponentHandeler } from "../controller-actions/alert-co
 import { ControllerActionInputData } from "../../enums/controller-action-input-data.enum";
 import { AbstractToastComponentHandler } from "../../component-handlers/abstract-toast-component.handler";
 import { ToastComponentHandler } from "../controller-actions/toast-component.handler";
+import { LocalRoutingEnum } from "../../enums/local-routes.enum";
+import { IonicGeneralColors } from "../../enums/ionic-general-colors.enum";
 @Component({
   selector: 'result-card',
   templateUrl: './result-card.component.html',
@@ -37,7 +39,7 @@ export class CustomListComponent implements OnInit, OnDestroy {
   showText(id) {
     this.animationCtrl.create()
     .addElement(document.getElementById(id))
-    .duration(1500)
+    .duration(3000)
     .iterations(Infinity)
     .fromTo('transform', 'translateX(0px)', 'translateX(100px)')
     .fromTo('opacity', '1', '0.2');
@@ -110,20 +112,20 @@ export class CustomListComponent implements OnInit, OnDestroy {
 
   async editItem() {
     this.globalDataStoreService.addItem('CURRENT_JOURNAL_ENTRY', this.resultItem._id);
-    this.router.navigate(['/item-details']);
+    this.router.navigate([LocalRoutingEnum.ITEM_DETAILS]);
     this.sessionStorageService.addItemToSessionStorage(SessionStorageEnum.CURREN_JOURNAL_ENTRY_ID, this.resultItem._id);
     this.firebaseJournalEntryCrudService.valueChanges();
   }
 
   deleteConfirm(){
-    this.alertControllerComponentHandeler.settingAlert({ message: 'Are you sure want to delete this journal?', subTitle:'Delete?', callback:this.deleteItem.bind(this) })
+    this.alertControllerComponentHandeler.settingAlert({ message: 'Are you sure you want to delete this journal entry?', subTitle:'Delete?', callback:this.deleteItem.bind(this) })
   }
 
   async deleteItem(){
     let data = await this.firebaseJournalEntryCrudService.delete(this.resultItem._id);    
     console.log(data);
     this.firebaseJournalEntryCrudService.valueChanges();
-    this.toastComponentHandler.settingToast({ message: 'Successfully deleted', color: 'success' });
+    this.toastComponentHandler.settingToast({ message: 'Successfully deleted', color: IonicGeneralColors.SUCCESS });
     this.successEvent.emit(true);
   }
 

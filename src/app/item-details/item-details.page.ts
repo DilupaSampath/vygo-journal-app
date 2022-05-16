@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { Animation, AnimationController, LoadingController, ToastController } from '@ionic/angular';
+import { AlertController, Animation, AnimationController, LoadingController, ToastController } from '@ionic/angular';
 import Quill from 'quill';
 import { AbstractLoadingComponentHandler } from '../common/component-handlers/abstract-loading-component.handler';
 import { FIREBASE_COLLECTION } from '../common/enums/firebase-collection.enum';
@@ -25,6 +25,9 @@ import firebase from "firebase";
 import { SessionStorageService } from '../common/services/session-storage.service';
 import { SessionStorageEnum } from '../common/enums/session-storage.enum';
 import { IFileImageContentInterface } from '../common/interfaces/file-image-content.interface';
+import { LocalRoutingEnum } from '../common/enums/local-routes.enum';
+import { IonicGeneralColors } from '../common/enums/ionic-general-colors.enum';
+import { AlertControllerComponentHandeler } from '../common/widgets/controller-actions/alert-controller.handler';
 @Component({
   selector: 'app-item-details',
   templateUrl: './item-details.page.html',
@@ -44,6 +47,7 @@ export class ItemDetailsPage implements OnInit, OnDestroy {
   private quillConfiguration: QuillConfiguration;
   loadingComponentHandler: AbstractLoadingComponentHandler;
   toastComponentHandler: AbstractToastComponentHandler;
+  alertControllerComponentHandeler: AlertControllerComponentHandeler;
   navigationData: any = null;
   date = new Date();
   currentJournalData: JournalEntry = null;
@@ -60,7 +64,8 @@ export class ItemDetailsPage implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute,
     private firebaseJournalEntryCrudService: FirebaseJournalEntryCrudService,
-    private sessionStorageService: SessionStorageService
+    private sessionStorageService: SessionStorageService,
+    private alertController: AlertController
   ) {
     // intialize object to handle current state of the data
     this.currentJournalData = new JournalEntry(firebaseAuthService)
@@ -97,6 +102,7 @@ export class ItemDetailsPage implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.globalEventHandller.triggerUiEvent(true, GlobalUiEvent.MAIN_MENUE_VISIBILITY);
+    this.fileUploadHandler.clearCurrentUploadImageMap();
   }
 
   ngOnInit() {
@@ -169,32 +175,50 @@ export class ItemDetailsPage implements OnInit, OnDestroy {
     this.updateCurrentImageMap(this.currentJournalData.images);
   }
 
+  /**
+   * set current state of the image map array when image upload event occured
+   * @param images image array with md5 hash and url
+   */
   updateCurrentImageMap(images: IFileImageContentInterface[]){
     images.forEach(element=>{
-      this.fileUploadHandler.addItemToCurrentUplodedFilesMap(element.md5Hash ,{url: element.url, md5Hash: element.md5Hash});
+
+      const uploaedItem: IFileImageContentInterface = {url: element.url, md5Hash: element.md5Hash};
+      this.fileUploadHandler.addItemToCurrentUplodedFilesMap(element.md5Hash , uploaedItem);
     });
   }
 
+  /**
+   * update the isFavorite state and update the current selected item's isFavorite status when user click on save button
+   */
   markAsFavorite(){
     this.isFavorite = !this.isFavorite;
     if(this.isFavorite){
-      this.toastComponentHandler.settingToast({ message: 'Marked as favorite', color: 'medium', pos: 'middle', duration: 2000 });
+      this.toastComponentHandler.settingToast({ message: 'Marked as favorite', color: IonicGeneralColors.MEDIUM, pos: 'middle', duration: 2000 });
 
     }
   }
 
+  /**
+   * to capcture the user selected date
+   * @param event ionic input change event
+   */
   dateChanged(event){
     console.log(event);
     this.currentJournalData.date = new Date(event.detail.value);
     this.ioStringate = this.currentJournalData.date.toISOString();
   }
 
+  /**
+   * when user perform save event, we have to extract the images store in _currentUplodedFilesMap. and convert that accordingly
+   * to create savable object
+   */
   async save(): Promise<any> {
     this.loadingComponentHandler.settingLoader({ message: 'Please wait..!' });
     const images = [];
     [...this.fileUploadHandler.getCurrentUplodedFilesMap().values()].forEach((data) => {
       images.push({md5Hash: data.md5Hash,url : data.url});
     });
+
     const apiRequestDataModel = new ApiRequestDataModel<JournalEntry>();
     apiRequestDataModel.collection = FIREBASE_COLLECTION.JOURNAL_ENTRY;
     apiRequestDataModel.method = RequestMethodEnum.POST;
@@ -202,18 +226,16 @@ export class ItemDetailsPage implements OnInit, OnDestroy {
     const journalEntry = new JournalEntry(this.firebaseAuthService);
     journalEntry.description = this.contentData;
     journalEntry.images = images;
-    journalEntry.tags = ['Sport', 'Fun day'];
-    journalEntry.shortTitle = 'Badminton play';
-    journalEntry.date = new Date();
+    journalEntry.tags = this.currentJournalData.tags ? this.currentJournalData.tags : [];
+    journalEntry.date = this.currentJournalData.date ? this.currentJournalData.date : new Date();
     journalEntry.isfavorite = this.isFavorite
+
     apiRequestDataModel.setPayload(journalEntry);
 
     const result = await this.firebaseCrudService.insertItem(apiRequestDataModel);
-
-    console.log(result);
     this.loadingComponentHandler.dismiss();
-    this.router.navigate(['/home']);
-    this.toastComponentHandler.settingToast({ message: 'Successfully created', color: 'success' });
+    this.router.navigate([LocalRoutingEnum.HOME]);
+    this.toastComponentHandler.settingToast({ message: 'Successfully created', color: IonicGeneralColors.SUCCESS });
   }
 
   async update(): Promise<any> {
@@ -245,8 +267,16 @@ export class ItemDetailsPage implements OnInit, OnDestroy {
     console.log(result);
     this.loadingComponentHandler.dismiss();
     this.sessionStorageService.removeItemInSessionStorage(SessionStorageEnum.CURREN_JOURNAL_ENTRY_ID);
-    this.router.navigate(['/home']);
-    this.toastComponentHandler.settingToast({ message: 'Successfully updated', color: 'success' });
+    this.router.navigate([LocalRoutingEnum.HOME]);
+    this.toastComponentHandler.settingToast({ message: 'Successfully updated', color: IonicGeneralColors.SUCCESS });
+  }
+
+  cancel(){
+    this.router.navigate([LocalRoutingEnum.HOME]);
+  }
+  cancelConfirm(){
+    this.alertControllerComponentHandeler = new AlertControllerComponentHandeler(this.alertController, this.globalEventHandller);
+    this.alertControllerComponentHandeler.settingAlert({ message: 'Are you sure you want to cancel this?', subTitle:'Delete?', callback:this.cancel.bind(this) })
   }
 
 }
